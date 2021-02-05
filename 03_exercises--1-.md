@@ -1,6 +1,6 @@
 ---
 title: 'Weekly Exercises #3'
-author: "Put your name here"
+author: "Nolan Meyer"
 output: 
   html_document:
     keep_md: TRUE
@@ -123,6 +123,26 @@ These exercises will reiterate what you learned in the "Expanding the data wrang
   1. Summarize the `garden_harvest` data to find the total harvest weight in pounds for each vegetable and day of week (HINT: use the `wday()` function from `lubridate`). Display the results so that the vegetables are rows but the days of the week are columns.
 
 
+```r
+garden_harvest %>% 
+  mutate(day = wday(date, label = T)) %>% 
+  group_by(vegetable, day) %>% 
+  summarize(total_wt = sum(weight)) %>% 
+  arrange(day) %>% 
+  pivot_wider(id_cols = vegetable,
+              names_from = day,
+              values_from = total_wt)
+```
+
+```
+## `summarise()` regrouping output by 'vegetable' (override with `.groups` argument)
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["vegetable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Sun"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mon"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Tue"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Wed"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Thu"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Fri"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Sat"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"beans","2":"868","3":"2952","4":"1990","5":"1852","6":"1539","7":"692","8":"2136"},{"1":"beets","2":"146","3":"305","4":"72","5":"83","6":"5394","7":"11","8":"172"},{"1":"broccoli","2":"571","3":"372","4":"NA","5":"321","6":"NA","7":"75","8":"NA"},{"1":"carrots","2":"1332","3":"395","4":"160","5":"2523","6":"1213","7":"970","8":"1057"},{"1":"corn","2":"661","3":"344","4":"330","5":"2405","6":"NA","7":"1564","8":"597"},{"1":"cucumbers","2":"1408","3":"2166","4":"4557","5":"2407","6":"1500","7":"3370","8":"4373"},{"1":"jalapeño","2":"119","3":"2519","4":"249","5":"218","6":"102","7":"587","8":"684"},{"1":"kale","2":"375","3":"938","4":"128","5":"280","6":"127","7":"173","8":"676"},{"1":"lettuce","2":"665","3":"1115","4":"416","5":"538","6":"1112","7":"817","8":"597"},{"1":"onions","2":"118","3":"231","4":"321","5":"NA","6":"273","7":"33","8":"868"},{"1":"peas","2":"933","3":"2102","4":"938","5":"490","6":"1541","7":"425","8":"1294"},{"1":"peppers","2":"228","3":"1146","4":"655","5":"1108","6":"322","7":"152","8":"627"},{"1":"radish","2":"37","3":"89","4":"43","5":"NA","6":"67","7":"88","8":"105"},{"1":"rutabaga","2":"8738","3":"NA","4":"NA","5":"NA","6":"NA","7":"1623","8":"3129"},{"1":"spinach","2":"221","3":"67","4":"225","5":"97","6":"106","7":"89","8":"118"},{"1":"strawberries","2":"37","3":"217","4":"NA","5":"NA","6":"40","7":"221","8":"77"},{"1":"Swiss chard","2":"566","3":"487","4":"32","5":"412","6":"1012","7":"280","8":"333"},{"1":"tomatoes","2":"34296","3":"5213","4":"22113","5":"26429","6":"15657","7":"38590","8":"15933"},{"1":"zucchini","2":"5550","3":"5532","4":"7470","5":"926","6":"15708","7":"8492","8":"1549"},{"1":"basil","2":"NA","3":"30","4":"50","5":"NA","6":"12","7":"212","8":"186"},{"1":"hot peppers","2":"NA","3":"571","4":"64","5":"31","6":"NA","7":"NA","8":"NA"},{"1":"potatoes","2":"NA","3":"440","4":"NA","5":"2073","6":"5376","7":"1697","8":"1271"},{"1":"pumpkins","2":"NA","3":"13662","4":"14450","5":"NA","6":"NA","7":"NA","8":"42043"},{"1":"raspberries","2":"NA","3":"59","4":"152","5":"NA","6":"131","7":"259","8":"242"},{"1":"squash","2":"NA","3":"11038","4":"8377","5":"NA","6":"NA","7":"NA","8":"25502"},{"1":"cilantro","2":"NA","3":"NA","4":"2","5":"NA","6":"NA","7":"33","8":"17"},{"1":"edamame","2":"NA","3":"NA","4":"636","5":"NA","6":"NA","7":"NA","8":"2127"},{"1":"chives","2":"NA","3":"NA","4":"NA","5":"8","6":"NA","7":"NA","8":"NA"},{"1":"kohlrabi","2":"NA","3":"NA","4":"NA","5":"NA","6":"191","7":"NA","8":"NA"},{"1":"apple","2":"NA","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"156"},{"1":"asparagus","2":"NA","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 
   2. Summarize the `garden_harvest` data to find the total harvest in pound for each vegetable variety and then try adding the plot from the `garden_planting` table. This will not turn out perfectly. What is the problem? How might you fix it?
 

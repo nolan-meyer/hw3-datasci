@@ -170,10 +170,25 @@ There are a few problems. Some of the vegetable varieties have been plotted in m
 
 
   3. I would like to understand how much money I "saved" by gardening, for each vegetable type. Describe how I could use the `garden_harvest` and `garden_spending` datasets, along with data from somewhere like [this](https://products.wholefoodsmarket.com/search?sort=relevance&store=10542) to answer this question. You can answer this in words, referencing various join functions. You don't need R code but could provide some if it's helpful.
+  
+  You could group by vegetable and find the total amount you spent on seeds in the garden_spending table, and also group by vegetable in the garden_harvest table and find the total amount you harvested for each by weight. Then you could join these tables by vegetable so you have the total weight and total amount spent. Using data from a store, you could also join the prices to the table by vegetable, multiply the store price by your weight, and then find the difference between how much you paid for the seeds and how much it would have cost. 
+  
 
   4. Subset the data to tomatoes. Reorder the tomato varieties from smallest to largest first harvest date. Create a barplot of total harvest in pounds for each variety, in the new order.
 
 
+```r
+garden_harvest %>% 
+  filter(vegetable == "tomatoes") %>% 
+  group_by(variety) %>% 
+  mutate(first_harvest = min(date)) %>% 
+  mutate(tot_wt = sum(weight) * 0.00220462) %>% 
+  ggplot() +
+  geom_col(aes(x = tot_wt, y = fct_reorder(variety, first_harvest))) +
+  labs(x = "", y = "", title = "Total harvest weight in lbs by tomato variety")
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
   5. In the `garden_harvest` data, create two new variables: one that makes the varieties lowercase and another that finds the length of the variety name. Arrange the data by vegetable and length of variety name (smallest to largest), with one row for each vegetable variety. HINT: use `str_to_lower()`, `str_length()`, and `distinct()`.
   

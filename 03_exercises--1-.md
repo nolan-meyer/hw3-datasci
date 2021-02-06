@@ -321,7 +321,7 @@ Trips %>%
   ggplot() +
   geom_density(aes(x = time_of_day)) +
   facet_wrap(~ day_of_week) +
-  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours")
+  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours and day of the week")
 ```
 
 ![](03_exercises--1-_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
@@ -334,10 +334,38 @@ The variable `client` describes whether the renter is a regular user (level `Reg
   11. Change the graph from exercise 10 to set the `fill` aesthetic for `geom_density()` to the `client` variable. You should also set `alpha = .5` for transparency and `color=NA` to suppress the outline of the density function.
   
 
+```r
+Trips %>% 
+  mutate(time_of_day = hour(sdate) + (minute(sdate) * (1/60)),
+         day_of_week = wday(sdate, label = T)) %>% 
+  ggplot() +
+  geom_density(aes(x = time_of_day, fill = client), alpha = 0.5, color = NA) +
+  facet_wrap(~ day_of_week) +
+  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours and client status", fill = "Client")
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
   12. Change the previous graph by adding the argument `position = position_stack()` to `geom_density()`. In your opinion, is this better or worse in terms of telling a story? What are the advantages/disadvantages of each?
   
 
+```r
+Trips %>% 
+  mutate(time_of_day = hour(sdate) + (minute(sdate) * (1/60)),
+         day_of_week = wday(sdate, label = T)) %>% 
+  ggplot() +
+  geom_density(aes(x = time_of_day, fill = client), 
+               alpha = 0.5, 
+               color = NA, 
+               position = position_stack()) +
+  facet_wrap(~ day_of_week) +
+  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours and client status", fill = "Client")
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+  
+  In my opinion, I think the first graph (#11) does a better job at telling the story because you can more easily distinguish the patterns between the types of clients. The second graph makes it appear more like both types peak around 8 am and 6 pm, however we know that's not the case from the first graph. The second graph is nicer to see the combined trends, but if you want to break it down by client the first graph is better.
+  
   
   13. In this graph, go back to using the regular density plot (without `position = position_stack()`). Add a new variable to the dataset called `weekend` which will be "weekend" if the day is Saturday or Sunday and  "weekday" otherwise (HINT: use the `ifelse()` function and the `wday()` function from `lubridate`). Then, update the graph from the previous problem by faceting on the new `weekend` variable. 
   

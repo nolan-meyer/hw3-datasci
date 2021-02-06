@@ -370,10 +370,37 @@ Trips %>%
   13. In this graph, go back to using the regular density plot (without `position = position_stack()`). Add a new variable to the dataset called `weekend` which will be "weekend" if the day is Saturday or Sunday and  "weekday" otherwise (HINT: use the `ifelse()` function and the `wday()` function from `lubridate`). Then, update the graph from the previous problem by faceting on the new `weekend` variable. 
   
 
+```r
+Trips %>% 
+  mutate(time_of_day = hour(sdate) + (minute(sdate) * (1/60)),
+         day_of_week = wday(sdate, label = T),
+         weekend = ifelse(day_of_week %in% c("Sat", "Sun"), "Weekend", "Weekday")) %>% 
+  ggplot() +
+  geom_density(aes(x = time_of_day, fill = client), alpha = 0.5, color = NA) +
+  facet_wrap(~ weekend) +
+  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours and day type", fill = "Client")
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
   
   14. Change the graph from the previous problem to facet on `client` and fill with `weekday`. What information does this graph tell you that the previous didn't? Is one graph better than the other?
   
 
+```r
+Trips %>% 
+  mutate(time_of_day = hour(sdate) + (minute(sdate) * (1/60)),
+         day_of_week = wday(sdate, label = T),
+         weekend = ifelse(day_of_week %in% c("Sat", "Sun"), "Weekend", "Weekday")) %>% 
+  ggplot() +
+  geom_density(aes(x = time_of_day, fill = weekend), alpha = 0.5, color = NA) +
+  facet_wrap(~ client) +
+  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours and client status", fill = "Day")
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+  
+  The two graphs show the same information just with a different ordering/stacking. The second one makes it easier to see differences within the clients based on the day, while the first makes it easier to see differences within the type of day based on clients. Both are acceptable graphs, but if I had to pick one I would use the second one.
+  
   
 ### Spatial patterns
 

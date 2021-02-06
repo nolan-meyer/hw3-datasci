@@ -293,7 +293,7 @@ Trips %>%
   mutate(time_of_day = hour(sdate) + (minute(sdate) * (1/60))) %>% 
   ggplot() +
   geom_density(aes(x = time_of_day)) +
-  labs(x = "", y = "", title = "Density of bike rental events by time of day")
+  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours")
 ```
 
 ![](03_exercises--1-_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
@@ -301,10 +301,33 @@ Trips %>%
   9. A bar graph of the events versus day of the week. Put day on the y-axis.
   
 
+```r
+Trips %>% 
+  mutate(day_of_week = wday(sdate, label = T)) %>% 
+  ggplot() +
+  geom_bar(aes(y = fct_rev(day_of_week))) +
+  labs(x = "", y = "", title = "Number of bike rentals by day of the week")
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
   
   10. Facet your graph from exercise 8. by day of the week. Is there a pattern?
   
 
+```r
+Trips %>% 
+  mutate(time_of_day = hour(sdate) + (minute(sdate) * (1/60)),
+         day_of_week = wday(sdate, label = T)) %>% 
+  ggplot() +
+  geom_density(aes(x = time_of_day)) +
+  facet_wrap(~ day_of_week) +
+  labs(x = "", y = "", title = "Density of bike rental events by time of day in hours")
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+  
+  There are some clear patterns shown in this plot. On weekdays, there are large peaks at around 8 am and 6 pm, coinciding with typical working hours. On the weekends, it is more of a standard bell curve distribution with the peak of rentals being around early afternoon.
+  
   
 The variable `client` describes whether the renter is a regular user (level `Registered`) or has not joined the bike-rental organization (`Causal`). The next set of exercises investigate whether these two different categories of users show different rental behavior and how `client` interacts with the patterns you found in the previous exercises. 
 

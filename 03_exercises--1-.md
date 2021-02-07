@@ -431,6 +431,27 @@ Trips %>%
   16. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? (Again, we'll improve this next week when we learn about maps).
   
 
+```r
+Trips %>% 
+  group_by(sstation) %>% 
+  summarize(total = n(),
+            prop_cas = sum(client == "Casual") / total) %>% 
+  left_join(Stations,
+            by = c("sstation" = "name")) %>% 
+  ggplot() +
+  geom_point(aes(x = long, y = lat, color = prop_cas)) +
+  labs(x = "Longitude", y = "Latitude", title = "Proportion of casual rider departures by station", color = "")
+```
+
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```
+## Warning: Removed 11 rows containing missing values (geom_point).
+```
+
+![](03_exercises--1-_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
   
 ### Spatiotemporal patterns
 

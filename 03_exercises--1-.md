@@ -8,6 +8,7 @@ output:
     toc_float: TRUE
     df_print: paged
     code_download: true
+    code_folding: "hide"
 ---
 
 
@@ -443,12 +444,17 @@ This table indicates that registered users are more active during the week, whil
 ## GitHub link
 
   20. Below, provide a link to your GitHub page with this set of Weekly Exercises. Specifically, if the name of the file is 03_exercises.Rmd, provide a link to the 03_exercises.md file, which is the one that will be most readable on GitHub.
+  
+  [link](https://github.com/nolan-meyer/hw3-datasci/blob/master/03_exercises%20(1).rmd)
+
 
 ## Challenge problem! 
 
 This problem uses the data from the Tidy Tuesday competition this week, `kids`. If you need to refresh your memory on the data, read about it [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-15/readme.md). 
 
   21. In this exercise, you are going to try to replicate the graph below, created by Georgios Karamanis. I'm sure you can find the exact code on GitHub somewhere, but **DON'T DO THAT!** You will only be graded for putting an effort into this problem. So, give it a try and see how far you can get without doing too much googling. HINT: use `facet_geo()`. The graphic won't load below since it came from a location on my computer. So, you'll have to reference the original html on the moodle page to see it.
+  
 
+  
 
 **DID YOU REMEMBER TO UNCOMMENT THE OPTIONS AT THE TOP?**

@@ -502,6 +502,27 @@ Trips %>%
   19. Build on the code from the previous problem (ie. copy that code below and then %>% into the next step.) and group the trips by client type and day of the week (use the name, not the number). Find the proportion of trips by day within each client type (ie. the proportions for all 7 days within each client type add up to 1). Display your results so day of week is a column and there is a column for each client type. Interpret your results.
   
 
+```r
+Trips %>% 
+  mutate(date = as_date(sdate)) %>% 
+  inner_join(top_ten_by_date,
+             by = c("sstation" = "sstation", "date" = "date")) %>% 
+  select(-c("n")) %>% 
+  mutate(day_of_week = wday(sdate, label = T)) %>% 
+  count(client, day_of_week) %>% 
+  group_by(client) %>% 
+  mutate(prop = n/sum(n)) %>% 
+  select(-c("n")) %>% 
+  pivot_wider(names_from = client,
+              values_from = prop) %>% 
+  arrange(day_of_week)
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["day_of_week"],"name":[1],"type":["ord"],"align":["right"]},{"label":["Casual"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Registered"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sun","2":"0.24137931","3":"0.04081633"},{"1":"Mon","2":"NA","3":"0.14285714"},{"1":"Wed","2":"0.06896552","3":"0.32653061"},{"1":"Thu","2":"0.24137931","3":"0.30612245"},{"1":"Fri","2":"NA","3":"0.12244898"},{"1":"Sat","2":"0.44827586","3":"0.06122449"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 
   
 **DID YOU REMEMBER TO GO BACK AND CHANGE THIS SET OF EXERCISES TO THE LARGER DATASET? IF NOT, DO THAT NOW.**

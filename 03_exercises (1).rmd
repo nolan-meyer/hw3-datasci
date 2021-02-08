@@ -372,7 +372,29 @@ This problem uses the data from the Tidy Tuesday competition this week, `kids`. 
   21. In this exercise, you are going to try to replicate the graph below, created by Georgios Karamanis. I'm sure you can find the exact code on GitHub somewhere, but **DON'T DO THAT!** You will only be graded for putting an effort into this problem. So, give it a try and see how far you can get without doing too much googling. HINT: use `facet_geo()`. The graphic won't load below since it came from a location on my computer. So, you'll have to reference the original html on the moodle page to see it.
   
 ```{r}
+kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
+```
 
+```{r}
+kids %>% 
+  filter(variable == "lib", year == "1997"|year == "2016") %>% 
+  select(state, year, inf_adj_perchild) %>% 
+  arrange(state) %>% 
+  ggplot(aes(x = year, y = inf_adj_perchild)) +
+  geom_line() + 
+  facet_geo(vars(state)) +
+  labs(x = "", y = "", title = "Change in public spending on libraries from 1996 to 2016", subtitle = "Thousands of dollars spent per child, adjusted for inflation") +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        plot.background = element_rect(fill = "slategrey"))
 ```
   
 
